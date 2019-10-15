@@ -1,11 +1,13 @@
-import productArray from './utils.js';
+import { getProductsById, getRandomProduct } from './utils.js';
 import { productData } from './api.js';
+import ProductArray from './ProductArray.js';
 
 
 const productImageTags = document.querySelectorAll('img');
 const productRadioTags = document.querySelectorAll('input');
 const products = new ProductArray(productData);
 let productChosen;
+let disqualifiedProduct = null;
 
 // productRadioTags.forEach((radioTag) => {
 //     radioTag.addEventListener('click', event) => {
