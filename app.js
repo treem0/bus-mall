@@ -8,18 +8,17 @@ const productName1 = document.getElementById('product-one');
 const productName2 = document.getElementById('product-two');
 const productName3 = document.getElementById('product-three');
 const products = new ProductArray(productData);
-let productChosen;
-let disqualifiedProduct = null;
+
 
 const initializeNewProducts = () => {
     const randomProduct1 = products.getRandomProduct();
     let randomProduct2 = products.getRandomProduct();
     let randomProduct3 = products.getRandomProduct();
 
-    while (randomProduct1.id === randomProduct2.id || randomProduct2 === randomProduct3) {
+    while (randomProduct1.id === randomProduct2.id) {
         randomProduct2 = products.getRandomProduct();
     }
-    while (randomProduct2.id === randomProduct3.id || randomProduct3.id === randomProduct1) {
+    while (randomProduct2.id === randomProduct3.id || randomProduct1.id === randomProduct3) {
         randomProduct3 = products.getRandomProduct();
     }
 
@@ -49,4 +48,14 @@ const initializeNewProducts = () => {
     
 };
 
+let timesPlayed = 0;
+
+for (let i = 0; i < productRadioTags.length; i++) {
+    const radioInput = productRadioTags[i];
+    radioInput.addEventListener('click', initializeNewProducts, true); // need to figure out this last true parameter
+    timesPlayed++;
+    console.log(timesPlayed);
+}
 initializeNewProducts();
+
+
