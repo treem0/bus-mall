@@ -7,6 +7,8 @@ const productRadioTags = document.querySelectorAll('input');
 const productName1 = document.getElementById('product-one');
 const productName2 = document.getElementById('product-two');
 const productName3 = document.getElementById('product-three');
+const productArea = document.getElementById('product-selection');
+const resultArea = document.getElementById('result-section');
 const products = new ProductArray(productData);
 
 let productsSelected = [];
@@ -71,26 +73,20 @@ function trackProductsClicked(productsSelected, productId) {
         found.selected++;
     }
     
-
-
-    console.log('Made it Here');
-    console.log(found);
-    // if (!found) {
-    //     const productSelected = { id: productId, selected: 1, shownCount: 1 };
-    //     productsSelected.push(productSelected);
-    // } else {
-    //     found.selected++;
-    //     found.shownCount++;
-    // }
-    
 }
 
 productRadioTags.forEach((radioTag) => {
     radioTag.addEventListener('click', (event) => {
-        console.log(radioTag.value);
         trackProductsClicked(productsSelected, event.target.value);
         initializeNewProducts();
+        timesPlayed++;
+
+        if (timesPlayed > 24) {
+            productArea.classList.add('hidden');
+            resultArea.classList.remove('hidden');
+        }
         console.log(productsSelected);
+        console.log(timesPlayed);
     });
 });
 
