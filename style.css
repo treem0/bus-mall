@@ -57,3 +57,7 @@ input {
 p {
     font-family: 'Concert One', cursive;
 }
+
+.hidden {
+    display: none;
+}
