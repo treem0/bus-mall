@@ -51,6 +51,9 @@ const initializeNewProducts = () => {
     productName2.textContent = randomProduct2.name;
     productName3.textContent = randomProduct3.name;
     
+    randomProduct1.showCount++;
+    randomProduct2.showCount++;
+    randomProduct3.showCount++;
 };
 
 
