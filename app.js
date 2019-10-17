@@ -9,6 +9,8 @@ const productName2 = document.getElementById('product-two');
 const productName3 = document.getElementById('product-three');
 const productArea = document.getElementById('product-selection');
 const resultArea = document.getElementById('result-section');
+const shownProductsHere = document.getElementById('products-shown');
+const productsClicked = document.getElementById('products-clicked');
 const products = new ProductArray(productData);
 
 let productsSelected = [];
@@ -50,18 +52,12 @@ const initializeNewProducts = () => {
     productName1.textContent = randomProduct1.name;
     productName2.textContent = randomProduct2.name;
     productName3.textContent = randomProduct3.name;
+
     
     randomProduct1.showCount++;
     randomProduct2.showCount++;
     randomProduct3.showCount++;
 };
-
-
-// const handleRadioButtonClick = (event) => {
-//     const radioElement = event.target;
-//     timesPlayed++;
-// };
-
 
 
 function trackProductsClicked(productsSelected, productId) {
@@ -75,7 +71,6 @@ function trackProductsClicked(productsSelected, productId) {
     } else {
         found.selected++;
     }
-    
 }
 
 productRadioTags.forEach((radioTag) => {
@@ -87,6 +82,8 @@ productRadioTags.forEach((radioTag) => {
         if (timesPlayed > 24) {
             productArea.classList.add('hidden');
             resultArea.classList.remove('hidden');
+            // shownProductsHere.textContent = productData.forEach(showCount); 
+            productsClicked.textContent = productsSelected;
         }
         console.log(productsSelected);
         console.log(timesPlayed);
