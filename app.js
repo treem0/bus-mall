@@ -84,6 +84,7 @@ productRadioTags.forEach((radioTag) => {
             resultArea.classList.remove('hidden');
             // shownProductsHere.textContent = productData.forEach(showCount); 
             productsClicked.textContent = JSON.stringify(productsSelected);
+            shownProductsHere.textContent = JSON.stringify(productData);
         }
         console.log(productsSelected);
         console.log(timesPlayed);
