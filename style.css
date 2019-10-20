@@ -61,3 +61,7 @@ p {
 .hidden {
     display: none;
 }
+canvas {
+    width: 75%;
+    height: 500px;
+  }
