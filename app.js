@@ -105,8 +105,6 @@ productRadioTags.forEach((radioTag) => {
             productArea.classList.add('hidden');
             resultArea.classList.remove('hidden');
             createChart()
-            console.log(productsShown);
-            console.log(productsSelected);
         }
     });
 });
@@ -123,6 +121,14 @@ function mergeArrays(shownArray, selectedArray) {
     return returnMergedArray;
 }
 
+function convertIdArray(array) {
+    const returnId = [];
+    array.forEach(element => {
+        returnId.push(element.id);
+    });
+    return returnId;
+} 
+
 function convertShownData(array) {
     const returnShownData = [];
     array.forEach(element => {
@@ -136,17 +142,9 @@ function convertClickData(array) {
     array.forEach(element => {
         returnClickData.push(element.selected);
     });
+    debugger;
     returnClickData;
 }
-
-function convertIdArray(array) {
-    const returnId = [];
-    array.forEach(element => {
-        returnId.push(element.id);
-    });
-    return returnId;
-} 
-
 
 
 function createChart() {
@@ -163,7 +161,7 @@ function createChart() {
             labels: myIds,
             datasets: [{
                 label: 'Products Selected',
-                data: SELECTS,
+                data: [2, 4, 64, 7, 6, 1, 8],
                 backgroundColor: 'red'
             },
             {
@@ -172,8 +170,8 @@ function createChart() {
                 backgroundColor: 'blue'
         }]
     },
-    options: {
-    scales: {
+        options: {
+        scales: {
         yAxes: [{
             ticks: {
                 beginAtZero:true
@@ -184,9 +182,6 @@ function createChart() {
 });
     return myChart;
 };
-
-
-
 
 initializeNewProducts();
 
