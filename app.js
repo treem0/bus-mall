@@ -105,9 +105,23 @@ productRadioTags.forEach((radioTag) => {
             productArea.classList.add('hidden');
             resultArea.classList.remove('hidden');
             createChart()
+            console.log(productsShown);
+            console.log(productsSelected);
         }
     });
 });
+
+function mergeArrays(shownArray, selectedArray) {
+    const returnMergedArray = [];
+    shownArray.forEach(element => {
+
+        const mergedItem = element;
+        const selectedObject = products.getProductById(selectedArray, mergedItem.id) || { selected: 0 };
+        mergedItem.selected = selectedObject.selected;
+        returnMergedArray.push(mergedItem);
+    });
+    return returnMergedArray;
+}
 
 function convertShownData(array) {
     const returnShownData = [];
@@ -133,28 +147,28 @@ function convertIdArray(array) {
     return returnId;
 } 
 
-const ctx = document.getElementById('chart').getContext('2d');
-const parsedShownArray = JSON.parse(localStorage.productsShown);
-const parsedUserSelectedArray = JSON.parse(localStorage.productsSelected);
-
-const myIds = convertIdArray(parsedShownArray);
-const mydata = convertShownData(parsedShownArray);
-const selects = convertClickData(parsedUserSelectedArray);
 
 
 function createChart() {
+    const ctx = document.getElementById('chart').getContext('2d');
+    const parsedShownArray = JSON.parse(localStorage.productsShown);
+    const parsedUserSelectedArray = JSON.parse(localStorage.productsSelected);
+    const dataArray = mergeArrays(parsedShownArray, parsedUserSelectedArray);
+    const myIds = convertIdArray(dataArray);
+    const SHOWN = convertShownData(dataArray);
+    const SELECTS = convertClickData(dataArray);
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: myIds,
             datasets: [{
                 label: 'Products Selected',
-                data: selects,
+                data: SELECTS,
                 backgroundColor: 'red'
             },
             {
                 label: 'Products Shown',
-                data: mydata,
+                data: SHOWN,
                 backgroundColor: 'blue'
         }]
     },
