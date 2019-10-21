@@ -104,7 +104,7 @@ productRadioTags.forEach((radioTag) => {
         if (timesPlayed > 24) {
             productArea.classList.add('hidden');
             resultArea.classList.remove('hidden');
-            createChart()
+            createChart();
         }
     });
 });
@@ -142,7 +142,6 @@ function convertClickData(array) {
     array.forEach(element => {
         returnClickData.push(element.selected);
     });
-    debugger;
     returnClickData;
 }
 
@@ -161,27 +160,27 @@ function createChart() {
             labels: myIds,
             datasets: [{
                 label: 'Products Selected',
-                data: [2, 4, 64, 7, 6, 1, 8],
+                data: SELECTS,
                 backgroundColor: 'red'
             },
             {
                 label: 'Products Shown',
                 data: SHOWN,
                 backgroundColor: 'blue'
-        }]
-    },
+            }]
+        },
         options: {
-        scales: {
-        yAxes: [{
-            ticks: {
-                beginAtZero:true
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
             }
-        }]
-    }
-    }
-});
+        }
+    });
     return myChart;
-};
+}
 
 initializeNewProducts();
 
