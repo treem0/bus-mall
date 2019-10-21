@@ -9,8 +9,6 @@ const productName2 = document.getElementById('product-two');
 const productName3 = document.getElementById('product-three');
 const productArea = document.getElementById('product-selection');
 const resultArea = document.getElementById('result-section');
-const shownProductsHere = document.getElementById('products-shown');
-const productsClicked = document.getElementById('products-clicked');
 const products = new ProductArray(productData);
 
 let productsSelected = [];
@@ -106,13 +104,8 @@ productRadioTags.forEach((radioTag) => {
         if (timesPlayed > 24) {
             productArea.classList.add('hidden');
             resultArea.classList.remove('hidden');
-            // shownProductsHere.textContent = productData.forEach(showCount); 
-            // productsClicked.textContent = JSON.stringify(productsSelected);
-            // shownProductsHere.textContent = JSON.stringify(productData);
             createChart()
         }
-        console.log(productsSelected);
-        console.log(timesPlayed);
     });
 });
 
@@ -160,9 +153,9 @@ function createChart() {
                 backgroundColor: 'red'
             },
             {
-            label: 'Products Shown',
-            data: mydata,
-            backgroundColor: 'blue'
+                label: 'Products Shown',
+                data: mydata,
+                backgroundColor: 'blue'
         }]
     },
     options: {
