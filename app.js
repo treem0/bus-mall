@@ -134,7 +134,7 @@ function convertShownData(array) {
     array.forEach(element => {
         returnShownData.push(element.showCount);
     });
-    returnShownData;
+    return returnShownData;
 }
 
 function convertClickData(array) {
@@ -142,7 +142,7 @@ function convertClickData(array) {
     array.forEach(element => {
         returnClickData.push(element.selected);
     });
-    returnClickData;
+    return returnClickData;
 }
 
 
