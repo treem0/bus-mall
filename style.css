@@ -1,0 +1,67 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 20%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(192, 192, 192);
+}
+
+header {
+    background-color: rgb(5, 69, 80);
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    align-items: center;
+}
+
+.header2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+
+h1 {
+    font-family: 'Alfa Slab One', cursive;
+    color: whitesmoke;
+    font-size: 32px;
+}
+
+h2 {
+    font-family: 'Orbitron', sans-serif;
+}
+
+img {
+    width: 20%;
+}
+
+.product-selection {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+.radio-image:hover {
+    border: solid;
+    border-color: teal; 
+}
+
+input {
+    display: none;
+}
+
+p {
+    font-family: 'Concert One', cursive;
+}
+
+.hidden {
+    display: none;
+}
+canvas {
+    width: 75%;
+    height: 500px;
+  }

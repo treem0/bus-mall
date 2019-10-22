@@ -1,0 +1,187 @@
+import { ProductArray, compare } from './utils.js';
+import { productData } from './src/api.js';
+
+
+const productImageTags = document.querySelectorAll('img');
+const productRadioTags = document.querySelectorAll('input');
+const productName1 = document.getElementById('product-one');
+const productName2 = document.getElementById('product-two');
+const productName3 = document.getElementById('product-three');
+const productArea = document.getElementById('product-selection');
+const resultArea = document.getElementById('result-section');
+const products = new ProductArray(productData);
+
+let productsSelected = [];
+let productsShown = [];
+let timesPlayed = 0;
+
+
+const initializeNewProducts = () => {
+    const randomProduct1 = products.getRandomProduct();
+    let randomProduct2 = products.getRandomProduct();
+    let randomProduct3 = products.getRandomProduct();
+    
+    while (randomProduct1.id === randomProduct2.id) {
+        randomProduct2 = products.getRandomProduct();
+    }
+    while (randomProduct1.id === randomProduct3.id || randomProduct2.id === randomProduct3) {
+        randomProduct3 = products.getRandomProduct();
+    }
+    
+    productImageTags.forEach((imageTag, i) => {
+        if (i === 0) {
+            imageTag.src = randomProduct1.image;
+            trackProductsShown(randomProduct1.id);
+        } else if (i === 1) {
+            imageTag.src = randomProduct2.image;
+            trackProductsShown(randomProduct2.id);
+        } else if (i === 2) {
+            imageTag.src = randomProduct3.image;
+            trackProductsShown(randomProduct3.id);
+        }
+    });
+    
+    productRadioTags.forEach((radioTag, i) => {
+        if (i === 0) {
+            radioTag.value = randomProduct1.id;
+        } else if (i === 1) {
+            radioTag.value = randomProduct2.id;
+        } else if (i === 2) {
+            radioTag.value = randomProduct3.id;
+        }
+    });
+    
+    productName1.textContent = randomProduct1.name;
+    productName2.textContent = randomProduct2.name;
+    productName3.textContent = randomProduct3.name;
+    
+    
+    randomProduct1.showCount++;
+    randomProduct2.showCount++;
+    randomProduct3.showCount++;
+};
+
+function trackProductsShown(productId) {
+    let shown = compare(productsShown, productId);
+    if (!shown) {
+        shown = {
+            id: productId,
+            showCount: 1,
+        };
+        productsShown.push(shown);
+    } else {
+        shown.showCount++;
+    }
+    
+    const json = JSON.stringify(productsShown);
+    localStorage.setItem('productsShown', json);
+    
+}
+
+
+function trackProductsClicked(productsSelected, productId) {
+    let found = products.getProductById(productsSelected, productId);
+    if (!found) {
+        found = {
+            id: productId,
+            selected: 1,
+        };
+        productsSelected.push(found);
+    } else {
+        found.selected++;
+    }
+    
+    const json = JSON.stringify(productsSelected);
+    localStorage.setItem('productsSelected', json);
+}
+
+productRadioTags.forEach((radioTag) => {
+    radioTag.addEventListener('click', (event) => {
+        trackProductsClicked(productsSelected, event.target.value);
+        initializeNewProducts();
+        timesPlayed++;
+        
+        if (timesPlayed > 24) {
+            productArea.classList.add('hidden');
+            resultArea.classList.remove('hidden');
+            createChart();
+        }
+    });
+});
+
+function mergeArrays(shownArray, selectedArray) {
+    const returnMergedArray = [];
+    shownArray.forEach(element => {
+
+        const mergedItem = element;
+        const selectedObject = products.getProductById(selectedArray, mergedItem.id) || { selected: 0 };
+        mergedItem.selected = selectedObject.selected;
+        returnMergedArray.push(mergedItem);
+    });
+    return returnMergedArray;
+}
+
+function convertIdArray(array) {
+    const returnId = [];
+    array.forEach(element => {
+        returnId.push(element.id);
+    });
+    return returnId;
+} 
+
+function convertShownData(array) {
+    const returnShownData = [];
+    array.forEach(element => {
+        returnShownData.push(element.showCount);
+    });
+    return returnShownData;
+}
+
+function convertClickData(array) {
+    const returnClickData = [];
+    array.forEach(element => {
+        returnClickData.push(element.selected);
+    });
+    return returnClickData;
+}
+
+
+function createChart() {
+    const ctx = document.getElementById('chart').getContext('2d');
+    const parsedShownArray = JSON.parse(localStorage.productsShown);
+    const parsedUserSelectedArray = JSON.parse(localStorage.productsSelected);
+    const dataArray = mergeArrays(parsedShownArray, parsedUserSelectedArray);
+    const myIds = convertIdArray(dataArray);
+    const SHOWN = convertShownData(dataArray);
+    const SELECTS = convertClickData(dataArray);
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: myIds,
+            datasets: [{
+                label: 'Products Selected',
+                data: SELECTS,
+                backgroundColor: 'red'
+            },
+            {
+                label: 'Products Shown',
+                data: SHOWN,
+                backgroundColor: 'blue'
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+    return myChart;
+}
+
+initializeNewProducts();
+
+
